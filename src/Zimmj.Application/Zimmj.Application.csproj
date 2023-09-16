@@ -1,4 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-
+  <ItemGroup>
+    <ProjectReference Include="..\Zimmj.Core\Zimmj.Core.csproj" />
+  </ItemGroup>
 </Project>
