@@ -13,6 +13,9 @@
       <Content Update="appsettings.Development.json">
         <DependentUpon>appsettings.json</DependentUpon>
       </Content>
+      <Content Update="appsettings.Integration.json">
+        <DependentUpon>appsettings.json</DependentUpon>
+      </Content>
     </ItemGroup>
 
 

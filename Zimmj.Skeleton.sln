@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zimmj.Presentation.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zimmj.Presentation", "src\Zimmj.Presentation\Zimmj.Presentation.csproj", "{2601A7F1-6153-4DEE-931D-844100C01322}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zimmj.Integration.Tests", "tests\Zimmj.Integration.Tests\Zimmj.Integration.Tests.csproj", "{5EA84581-EB34-46A0-84EC-4E4AFF6D8108}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,7 @@ Global
 		{384243FF-0321-45A0-A6D6-8B7E887D72F4} = {B37E375D-4591-48F4-8ED9-C3D9A8E195CF}
 		{2B1F8ABF-1F38-47AC-BB54-A482B421B8F8} = {B37E375D-4591-48F4-8ED9-C3D9A8E195CF}
 		{2601A7F1-6153-4DEE-931D-844100C01322} = {F2E20F29-1C78-43FC-B983-CFB3A1894EA5}
+		{5EA84581-EB34-46A0-84EC-4E4AFF6D8108} = {B37E375D-4591-48F4-8ED9-C3D9A8E195CF}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{73F1AA5F-E196-4338-B64E-18BC843B30BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -74,5 +77,9 @@ Global
 		{2601A7F1-6153-4DEE-931D-844100C01322}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2601A7F1-6153-4DEE-931D-844100C01322}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2601A7F1-6153-4DEE-931D-844100C01322}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EA84581-EB34-46A0-84EC-4E4AFF6D8108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EA84581-EB34-46A0-84EC-4E4AFF6D8108}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EA84581-EB34-46A0-84EC-4E4AFF6D8108}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EA84581-EB34-46A0-84EC-4E4AFF6D8108}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
