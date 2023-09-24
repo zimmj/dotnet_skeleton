@@ -26,6 +26,7 @@ public static class MongoExtensions
     private static void AddMongoServices(this IServiceCollection services, IConfiguration configuration)
     {
         var mongoDbSettings = services.GetOptions<MongoInformation>("MongoInformation", configuration);
+        services.AddSingleton<MongoInformation>(mongoDbSettings);
         var mongoClient = new MongoClient(mongoDbSettings.ConnectionString);
         services.AddSingleton<IMongoClient>(mongoClient);
 
@@ -51,7 +52,7 @@ public static class MongoExtensions
         string collectionName,
         List<Expression<Func<TEntity, object>>>? descSortingFields = null,
         List<Expression<Func<TEntity, object>>>? ascUniqueFields = null)
-        where TEntity : IIdentifiable<TIdentifiable>
+        where TEntity : class, IIdentifiable<TIdentifiable>
         where TIdentifiable : notnull
     {
         services.AddTransient<IMongoRepository<TEntity, TIdentifiable>>(provider =>

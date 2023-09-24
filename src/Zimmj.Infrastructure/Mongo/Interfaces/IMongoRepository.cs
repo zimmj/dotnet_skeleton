@@ -3,13 +3,13 @@ using MongoDB.Driver;
 
 namespace Zimmj.Infrastructure.Mongo.Interfaces;
 
-internal interface IMongoRepository<TEntity, in TIdentifiable>
+public interface IMongoRepository<TEntity, in TIdentifiable>
     where TEntity : IIdentifiable<TIdentifiable>
     where TIdentifiable : notnull
 {
-    Task<TEntity> GetAsync(TIdentifiable id);
+    Task<TEntity?> GetAsync(TIdentifiable id);
 
-    Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate);
+    Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate);
 
     Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
     Task<List<TEntity>> GetAllDocumentsAsync();

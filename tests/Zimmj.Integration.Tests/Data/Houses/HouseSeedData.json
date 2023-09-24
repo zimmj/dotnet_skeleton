@@ -1,0 +1,17 @@
+[
+  {
+    "_id": "existingHouse",
+    "Name": "existingHouse",
+    "Price": 200
+  },
+  {
+    "_id": "cheapHouse",
+    "Name": "cheapHouse",
+    "Price": 10
+  },
+  {
+    "_id": "expensiveHouse",
+    "Name": "expensiveHouse",
+    "Price": 10000
+  }
+]

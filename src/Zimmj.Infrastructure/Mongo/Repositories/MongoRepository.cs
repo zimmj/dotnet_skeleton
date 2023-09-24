@@ -5,7 +5,7 @@ using Zimmj.Infrastructure.Mongo.Interfaces;
 namespace Zimmj.Infrastructure.Mongo.Repositories;
 
 internal class MongoRepository<TEntity, TIdentifiable> : IMongoRepository<TEntity, TIdentifiable>
-    where TEntity : IIdentifiable<TIdentifiable>
+    where TEntity : class, IIdentifiable<TIdentifiable>
     where TIdentifiable : notnull
 {
     public MongoRepository(IMongoDatabase database, string collectionName) =>
@@ -13,12 +13,11 @@ internal class MongoRepository<TEntity, TIdentifiable> : IMongoRepository<TEntit
 
     private IMongoCollection<TEntity> Collection { get; }
 
-    public Task<TEntity> GetAsync(TIdentifiable id)
+    public Task<TEntity?> GetAsync(TIdentifiable id)
         => GetAsync(entity => entity.Id.Equals(id));
 
-    public Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate)
-        => Collection.Find(predicate).SingleOrDefaultAsync()
-           ?? Task.FromResult((TEntity)Activator.CreateInstance(typeof(TEntity))!);
+    public Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate)
+        => Collection.Find(predicate).SingleOrDefaultAsync();
 
     public Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
         => Collection.Find(predicate).ToListAsync();
@@ -38,6 +37,11 @@ internal class MongoRepository<TEntity, TIdentifiable> : IMongoRepository<TEntit
 
     public Task UpdateAsync(TEntity entity, Expression<Func<TEntity, bool>> predicate)
         => Collection.ReplaceOneAsync(predicate, entity);
+
+    public Task UpdateManyAsync(Expression<Func<TEntity, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
 
     public Task UpdateManyAsync(Expression<Func<TEntity, bool>> predicate, UpdateDefinition<TEntity> update)
         => Collection.UpdateManyAsync(predicate, update);

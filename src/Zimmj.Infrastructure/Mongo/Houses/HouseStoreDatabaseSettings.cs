@@ -1,4 +1,4 @@
-namespace Zimmj.Infrastructure.Mongo.Houses.Settings;
+namespace Zimmj.Infrastructure.Mongo.Houses;
 
 public class HouseStoreDatabaseSettings
 {

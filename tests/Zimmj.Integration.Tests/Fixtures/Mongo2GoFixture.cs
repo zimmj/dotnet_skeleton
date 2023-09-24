@@ -1,6 +1,6 @@
 using Mongo2Go;
 using MongoDB.Driver;
-using Zimmj.Infrastructure.Mongo.Houses.Documents;
+using Zimmj.Infrastructure.Mongo.Houses;
 
 namespace Zimmj.Integration.Tests.Fixtures;
 
@@ -13,12 +13,13 @@ public class Mongo2GoFixture : IDisposable
     private readonly string _databaseName = "testDatabase";
     public IMongoCollection<HouseDocument> DataBoundCollection { get; }
 
-    public Mongo2GoFixture()
+    public Mongo2GoFixture(string databaseName)
     {
-        _mongoDbRunner = MongoDbRunner.Start();
+        _databaseName = databaseName ?? _databaseName;
+        _mongoDbRunner = MongoDbRunner.Start(singleNodeReplSet: true);
         ConnectionString = _mongoDbRunner.ConnectionString;
         Client = new MongoClient(ConnectionString);
-        Database = Client.GetDatabase(_databaseName);
+        Database = Client.GetDatabase(databaseName);
         DataBoundCollection = Database.GetCollection<HouseDocument>("houses");
     }
 

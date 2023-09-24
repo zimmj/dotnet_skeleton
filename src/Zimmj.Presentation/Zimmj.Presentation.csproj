@@ -2,8 +2,14 @@
 
 
     <ItemGroup>
+        <PackageReference Include="Mapster" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
-        <PackageReference Include="Swashbuckle.AspNetCore" />
+        <PackageReference Include="NSwag.AspNetCore" />
+        <PackageReference Include="Serilog.AspNetCore" />
+        <PackageReference Include="Serilog.Enrichers.Environment" />
+        <PackageReference Include="Serilog.Expressions" />
+        <PackageReference Include="Serilog.Settings.Configuration" />
+        <PackageReference Include="Serilog.Sinks.Console" />
     </ItemGroup>
 
     <ItemGroup>
@@ -16,6 +22,14 @@
       <Content Update="appsettings.Integration.json">
         <DependentUpon>appsettings.json</DependentUpon>
       </Content>
+      <Content Update="appsettings.Local.json">
+        <DependentUpon>appsettings.json</DependentUpon>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Zimmj.Application\Zimmj.Application.csproj" />
+      <ProjectReference Include="..\Zimmj.Infrastructure\Zimmj.Infrastructure.csproj" />
     </ItemGroup>
 
 

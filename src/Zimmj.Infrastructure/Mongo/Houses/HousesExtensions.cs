@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Zimmj.Infrastructure.Mongo.Houses.Documents;
-using Zimmj.Infrastructure.Mongo.Houses.Settings;
+using Zimmj.Core.Houses;
 
 namespace Zimmj.Infrastructure.Mongo.Houses;
 
@@ -13,6 +12,7 @@ public static class HousesExtensions
             services.GetOptions<HouseStoreDatabaseSettings>("HouseStoreDatabaseSettings", configuration);
         services.AddMongoRepository<HouseDocument, string>(
             houseStoreDatabaseSettings.CollectionName);
+        services.AddScoped<IHouseRepository, HouseRepository>();
 
         return services;
     }

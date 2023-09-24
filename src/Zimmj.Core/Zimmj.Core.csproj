@@ -1,4 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-
+  <ItemGroup>
+    <PackageReference Include="FluentResults" />
+    <PackageReference Include="MediatR" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CrossCutting\" />
+    <Folder Include="DataAccess\" />
+  </ItemGroup>
 </Project>
