@@ -1,17 +1,10 @@
-[
+[{
+  "_id": "Super string",
+  "Name": "string",
+  "Price": 0
+},
   {
-    "_id": "existingHouse",
-    "Name": "existingHouse",
-    "Price": 200
-  },
-  {
-    "_id": "cheapHouse",
-    "Name": "cheapHouse",
+    "_id": "New House",
+    "Name": "Test House",
     "Price": 10
-  },
-  {
-    "_id": "expensiveHouse",
-    "Name": "expensiveHouse",
-    "Price": 10000
-  }
-]
+  }]

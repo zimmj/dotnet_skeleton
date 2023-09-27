@@ -1,11 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
+        <PackageReference Include="AutoFixture.Xunit2" />
         <PackageReference Include="FluentAssertions" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" />
         <PackageReference Include="xunit" />
         <PackageReference Include="xunit.runner.visualstudio" />
         <PackageReference Include="coverlet.collector" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="CrossCutting\Dto\" />
+      <Folder Include="Houses\Dto\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\Zimmj.Presentation\Zimmj.Presentation.csproj" />
     </ItemGroup>
 
 </Project>

@@ -13,17 +13,20 @@ internal class MongoRepository<TEntity, TIdentifiable> : IMongoRepository<TEntit
 
     private IMongoCollection<TEntity> Collection { get; }
 
+    public Task<long> CountAsync(Expression<Func<TEntity, bool>> predicate)
+     => Collection.CountDocumentsAsync(predicate);
+
     public Task<TEntity?> GetAsync(TIdentifiable id)
         => GetAsync(entity => entity.Id.Equals(id));
 
     public Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate)
         => Collection.Find(predicate).SingleOrDefaultAsync();
 
-    public Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
-        => Collection.Find(predicate).ToListAsync();
+    public Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, MongoPaginator paginator)
+        => Collection.Find(predicate).Skip(paginator.Skip).Limit(paginator.Take).ToListAsync();
 
     public Task<List<TEntity>> GetAllDocumentsAsync()
-        => FindAsync(entity => true);
+        => Collection.Find(entity => true).ToListAsync();
 
     public Task AddAsync(TEntity entity)
         => Collection.InsertOneAsync(entity);

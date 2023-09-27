@@ -3,9 +3,13 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Zimmj.Application.Houses.Commands.Add;
 using Zimmj.Application.Houses.Commands.Get;
+using Zimmj.Core.CrossCutting.Search;
+using Zimmj.Core.Houses;
+using Zimmj.Presentation.CrossCutting.Dto;
 using Zimmj.Presentation.CrossCutting.Logging;
 using Zimmj.Presentation.CrossCutting.ResultExtensions;
 using Zimmj.Presentation.Houses.Dto;
+using Zimmj.Presentation.Houses.Mappings;
 
 namespace Zimmj.Presentation.Houses;
 
@@ -25,29 +29,24 @@ public class HousesController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet(Name = "GetHouses")]
-    public ActionResult<IEnumerable<SimpleHouse>> Get()
+    [HttpGet(Name = nameof(FilterHouses))]
+    public async Task<ActionResult<SearchAnswerDto<SimpleHouse>>> FilterHouses([FromQuery] int? upperPrice,
+        [FromQuery] int? lowerPrice, [FromQuery] int skip, [FromQuery] int take = 10)
     {
-        return Ok(new List<SimpleHouse>
-        {
-            new SimpleHouse
-            {
-                Name = "House 1",
-                Price = 100000
-            },
-            new SimpleHouse
-            {
-                Name = "House 2",
-                Price = 200000
-            }
-        });
+        var timer = Stopwatch.StartNew();
+        var result = await _mediator.Send(new FilterHousesCommand(
+            new HouseQuery(upperPrice, lowerPrice), new Paginator(skip, take)));
+        timer.Stop();
+        var eventLog = new HttpEventBuilder(Request).Ok(timer.ElapsedMilliseconds);
+        _logger.LogInformation("{@Event}", eventLog);
+        return result.Map(SearchAnswerHouseMapper.FromEntity).ToActionResult();
     }
 
     [HttpGet("{name}", Name = "GetHouseByName")]
     public async Task<ActionResult<SimpleHouse>> GetHouseByName(string name)
     {
         var timer = Stopwatch.StartNew();
-        var result = await _mediator.Send(new GetHouseByNameCommand(name);
+        var result = await _mediator.Send(new GetHouseByNameCommand(name));
         timer.Stop();
         var eventLog = new HttpEventBuilder(Request).Ok(timer.ElapsedMilliseconds);
         _logger.LogInformation("{@Event}", eventLog);

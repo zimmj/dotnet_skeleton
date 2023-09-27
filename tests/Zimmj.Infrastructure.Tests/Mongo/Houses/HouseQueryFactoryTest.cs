@@ -17,7 +17,12 @@ public class HouseQueryFactoryTest
     [InlineData(100, 0, 0, false)]
     [InlineData(100, 100, 100, false)]
     [InlineData(100, 100, 0, false)]
-    public void HouseQueryToExpression_ShouldEvaluateCorrectly(int upperLimit, int lowerLimit, int housePrice, bool expected)
+    [InlineData(null, null, 0, true)]
+    [InlineData(100, null, 0, true)]
+    [InlineData(100, null, 101, false)]
+    [InlineData(null, 100, 101, true)]
+    [InlineData(null, 100, 99, false)]
+    public void HouseQueryToExpression_ShouldEvaluateCorrectly(int? upperLimit, int? lowerLimit, int housePrice, bool expected)
     {
         // Arrange
         var query = new HouseQuery()

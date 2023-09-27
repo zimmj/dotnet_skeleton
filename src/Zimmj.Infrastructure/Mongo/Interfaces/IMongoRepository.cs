@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using MongoDB.Driver;
+using Zimmj.Infrastructure.Mongo.Repositories;
 
 namespace Zimmj.Infrastructure.Mongo.Interfaces;
 
@@ -7,11 +8,12 @@ public interface IMongoRepository<TEntity, in TIdentifiable>
     where TEntity : IIdentifiable<TIdentifiable>
     where TIdentifiable : notnull
 {
+    Task<long> CountAsync(Expression<Func<TEntity, bool>> predicate);
     Task<TEntity?> GetAsync(TIdentifiable id);
 
     Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate);
 
-    Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
+    Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, MongoPaginator paginator);
     Task<List<TEntity>> GetAllDocumentsAsync();
     
     Task AddAsync(TEntity entity);

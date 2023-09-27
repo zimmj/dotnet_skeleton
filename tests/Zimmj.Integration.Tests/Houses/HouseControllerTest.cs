@@ -2,7 +2,9 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using FluentAssertions;
+using Zimmj.Integration.Tests.Common;
 using Zimmj.Integration.Tests.Fixtures;
+using Zimmj.Presentation.CrossCutting.Dto;
 using Zimmj.Presentation.Houses.Dto;
 
 namespace Zimmj.Integration.Tests.Houses;
@@ -18,7 +20,7 @@ public class HouseControllerTest : IClassFixture<TestFixture<Program>>
         _testFixture = testFixture;
         testFixture.ConfigureTestOptions(options =>
         {
-            options.ConfigureDatabase("DataBaseName");
+            options.ConfigureDatabase("SkelletonDatabase");
             options.ConfigureWebHost(services =>
             {
                 //Add Mocked services here for injection
@@ -26,6 +28,7 @@ public class HouseControllerTest : IClassFixture<TestFixture<Program>>
         });
        
         _client = testFixture.CreateClient();
+        SeedHouseData.SeedData(_client);
     }
 
 
@@ -70,14 +73,14 @@ public class HouseControllerTest : IClassFixture<TestFixture<Program>>
         // Arrange
         var addHouse = new AddHouse()
         {
-            Name = "Test House",
+            Name = "New Test House",
             Price = 10
         };
 
         // Act
         var response = await _client.PostAsync(
             "/api/houses",
-            GetJsonContent(addHouse)
+            addHouse.ToJsonContent()
         );
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -86,16 +89,49 @@ public class HouseControllerTest : IClassFixture<TestFixture<Program>>
         
         // Assert
         newHouse.StatusCode.Should().Be(HttpStatusCode.OK);
-        var options = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        };
-        var house = JsonSerializer.Deserialize<SimpleHouse>(
-            await newHouse.Content.ReadAsStringAsync(), options);
+        var house = newHouse.Deserialize<SimpleHouse>();
 
         house.Should().NotBeNull();
         house!.Name.Should().Be(addHouse.Name);
         house.Price.Should().Be(addHouse.Price);
+    }
+
+    [Fact]
+    public async void FilterHouses_WithNonQuery_ShouldReturnAllHouses()
+    {
+        // Arrange
+
+        // Act
+        var response = await _client.GetAsync("/api/houses");
+        
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var housesAnswer = response.Deserialize<SearchAnswerDto<SimpleHouse>>();
+        
+        housesAnswer.Should().NotBeNull();
+        housesAnswer!.Items.Should().NotBeEmpty();
+        housesAnswer.Items.Should().HaveCount((int)housesAnswer.TotalCount);
+    }
+
+    [Theory]
+    [InlineData(100, 0, 1)]
+    [InlineData(1000140, 0, 3)]
+    [InlineData(1000140, 300, 1)]
+    public async void FilterHouse_WithDifferentLimits_ShouldReturnDifferentHouses(int? upperLimit, int? lowerLimit, int count)
+    {
+        // Arrange
+        
+        // Act
+        var response = await _client.GetAsync($"/api/houses?upperPrice={upperLimit}&lowerPrice={lowerLimit}");
+        
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var housesAnswer = response.Deserialize<SearchAnswerDto<SimpleHouse>>();
+        
+        housesAnswer.Should().NotBeNull();
+        housesAnswer!.Items.Should().NotBeEmpty();
+        housesAnswer.Items.Should().HaveCount(count);
+        housesAnswer.Items.Should().OnlyContain(house => house.Price <= upperLimit && house.Price >= lowerLimit);
     }
 
     [Fact]

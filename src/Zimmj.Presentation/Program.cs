@@ -18,7 +18,6 @@ try
     
     builder.Services.AddOpenApiDocument();
     builder.Services.AddEndpointsApiExplorer();
-
     builder.Services.AddMediatR( cfg => 
         cfg.RegisterServicesFromAssemblyContaining<Program>());
 

@@ -1,7 +1,10 @@
+using System.Collections.Immutable;
 using FluentResults;
 using Zimmj.Core.CrossCutting.ResultExtensions.Errors;
+using Zimmj.Core.CrossCutting.Search;
 using Zimmj.Core.Houses;
 using Zimmj.Infrastructure.Mongo.Interfaces;
+using Zimmj.Infrastructure.Mongo.Repositories;
 
 namespace Zimmj.Infrastructure.Mongo.Houses;
 
@@ -25,10 +28,14 @@ public class HouseRepository : IHouseRepository
         return Result.Ok(houseDocument.ToEntity());
     }
     
-    public async Task<Result<List<House>>> FindAsync(HouseQuery houseQuery)
+    public async Task<Result<SearchAnswer<House>>> FindAsync(HouseQuery houseQuery, Paginator paginator)
     {
-        var houses = await _houseRepository.FindAsync(houseQuery.ToExpression());
-        return Result.Ok(houses.Select(houseDocument => houseDocument.ToEntity()).ToList());
+        var search = houseQuery.ToExpression();
+        var houses = await _houseRepository.FindAsync(search, MongoPaginator.FromEntity(paginator));
+        var count = await _houseRepository.CountAsync(search);
+        return Result.Ok(
+            new SearchAnswer<House>(houses.Select(document => document.ToEntity()).ToImmutableList(), count, paginator)
+            );
     }
 
     public async Task<Result<List<House>>> GetAllDocumentsAsync()

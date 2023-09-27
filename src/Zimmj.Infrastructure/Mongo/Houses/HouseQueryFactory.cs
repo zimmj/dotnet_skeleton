@@ -26,11 +26,15 @@ internal static class HouseQueryFactory
     }
 
     private static Expression<Func<HouseDocument, bool>> PriceIsInRangeFilter(
-        int minPrice, int maxPrice)
+        int? minPrice, int? maxPrice)
     {
-        return PredicateBuilder.New<HouseDocument>()
-            .And(PriceHigherThanFilter(minPrice))
-            .And(PriceLowerThanFilter(maxPrice));
+        var expressionBuilder = PredicateBuilder.New<HouseDocument>(true);
+        if (minPrice.HasValue)
+            expressionBuilder.And(PriceHigherThanFilter(minPrice.Value));
+        if (maxPrice.HasValue)
+            expressionBuilder.And(PriceLowerThanFilter(maxPrice.Value));
+
+        return expressionBuilder;
     }
 
     internal static Expression<Func<HouseDocument, bool>> ToExpression(this HouseQuery houseQuery)

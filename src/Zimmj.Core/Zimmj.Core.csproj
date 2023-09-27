@@ -4,7 +4,6 @@
     <PackageReference Include="MediatR" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CrossCutting\" />
     <Folder Include="DataAccess\" />
   </ItemGroup>
 </Project>
