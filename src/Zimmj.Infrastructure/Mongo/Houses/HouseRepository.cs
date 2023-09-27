@@ -24,18 +24,24 @@ public class HouseRepository : IHouseRepository
         {
             return Result.Fail<House>(new EntityNotFoundError(nameof(House)));
         }
-        
+
         return Result.Ok(houseDocument.ToEntity());
     }
-    
-    public async Task<Result<SearchAnswer<House>>> FindAsync(HouseQuery houseQuery, Paginator paginator)
+
+    public async Task<Result<SearchAnswer<House>>> FindAsync(HouseQuery houseQuery, Paginator paginator,
+        SortBy<SortHouseBy> sortBy)
     {
         var search = houseQuery.ToExpression();
-        var houses = await _houseRepository.FindAsync(search, MongoPaginator.FromEntity(paginator));
+        var houses = await _houseRepository.FindAsync(
+            search,
+            MongoPaginator.FromEntity(paginator),
+            sortBy.ToSortByFieldExpression(),
+            sortBy.SortDirection
+            );
         var count = await _houseRepository.CountAsync(search);
         return Result.Ok(
             new SearchAnswer<House>(houses.Select(document => document.ToEntity()).ToImmutableList(), count, paginator)
-            );
+        );
     }
 
     public async Task<Result<List<House>>> GetAllDocumentsAsync()

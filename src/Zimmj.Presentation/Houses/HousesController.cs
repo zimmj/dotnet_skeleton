@@ -6,9 +6,11 @@ using Zimmj.Application.Houses.Commands.Get;
 using Zimmj.Core.CrossCutting.Search;
 using Zimmj.Core.Houses;
 using Zimmj.Presentation.CrossCutting.Dto;
+using Zimmj.Presentation.CrossCutting.Enum;
 using Zimmj.Presentation.CrossCutting.Logging;
 using Zimmj.Presentation.CrossCutting.ResultExtensions;
 using Zimmj.Presentation.Houses.Dto;
+using Zimmj.Presentation.Houses.Enum;
 using Zimmj.Presentation.Houses.Mappings;
 
 namespace Zimmj.Presentation.Houses;
@@ -31,11 +33,17 @@ public class HousesController : ControllerBase
 
     [HttpGet(Name = nameof(FilterHouses))]
     public async Task<ActionResult<SearchAnswerDto<SimpleHouse>>> FilterHouses([FromQuery] int? upperPrice,
-        [FromQuery] int? lowerPrice, [FromQuery] int skip, [FromQuery] int take = 10)
+        [FromQuery] int? lowerPrice,
+        [FromQuery] SortDirectionDto sortDirection = SortDirectionDto.DESC,
+        [FromQuery] SortHouseByDto sortBy = SortHouseByDto.Price,
+        [FromQuery] int skip = 0,
+        [FromQuery] int take = 10)
     {
         var timer = Stopwatch.StartNew();
         var result = await _mediator.Send(new FilterHousesCommand(
-            new HouseQuery(upperPrice, lowerPrice), new Paginator(skip, take)));
+            new HouseQuery(upperPrice, lowerPrice), new Paginator(skip, take),
+            new SortBy<SortHouseBy>(sortBy.ToSortHouseBy(),
+                sortDirection.ToSortDirection())));
         timer.Stop();
         var eventLog = new HttpEventBuilder(Request).Ok(timer.ElapsedMilliseconds);
         _logger.LogInformation("{@Event}", eventLog);

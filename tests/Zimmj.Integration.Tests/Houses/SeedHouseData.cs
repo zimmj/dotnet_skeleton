@@ -6,7 +6,7 @@ namespace Zimmj.Integration.Tests.Houses;
 public static class SeedHouseData
 {
     private static bool Once = false;
-    public static async void SeedData(HttpClient client)
+    public static async Task SeedData(HttpClient client)
     {
         if (Once)
             return;

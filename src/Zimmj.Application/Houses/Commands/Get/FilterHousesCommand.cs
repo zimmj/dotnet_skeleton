@@ -9,10 +9,12 @@ public class FilterHousesCommand: IRequest<Result<SearchAnswer<House>>>
 {
     public HouseQuery HouseQuery { get; }
     public Paginator Paginator { get; }
+    public SortBy<SortHouseBy> SortBy {get; }
 
-    public FilterHousesCommand(HouseQuery houseQuery, Paginator paginator)
+    public FilterHousesCommand(HouseQuery houseQuery, Paginator paginator, SortBy<SortHouseBy> sortBy)
     {
         HouseQuery = houseQuery;
         Paginator = paginator;
+        SortBy = sortBy;
     }
 }

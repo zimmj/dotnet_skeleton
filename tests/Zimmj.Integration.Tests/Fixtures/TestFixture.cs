@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Zimmj.Infrastructure.Mongo.Settings;
 
 namespace Zimmj.Integration.Tests.Fixtures;
 
@@ -46,7 +44,7 @@ public class TestFixture<TStartup> : IDisposable where TStartup : class
                 new List<KeyValuePair<string, string?>>
                 {
                     new("MongoInformation:ConnectionString", DatabaseFixture?.ConnectionString ?? ""),
-                    new("MongoInformation:DatabaseName", DatabaseFixture?.Database.DatabaseNamespace.DatabaseName ?? "")
+                    new("MongoInformation:DatabaseName", DatabaseFixture?.DatabaseName ?? "")
                 }).Build();
 
 

@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using LinqKit;
+using Zimmj.Core.CrossCutting.Search;
 using Zimmj.Core.Houses;
 
 [assembly: InternalsVisibleTo("Zimmj.Infrastructure.Tests")]
@@ -40,5 +41,15 @@ internal static class HouseQueryFactory
     internal static Expression<Func<HouseDocument, bool>> ToExpression(this HouseQuery houseQuery)
     {
         return PriceIsInRangeFilter(houseQuery.LowerPriceLimit, houseQuery.UpperPriceLimit);
+    }
+
+    internal static Expression<Func<HouseDocument, object>> ToSortByFieldExpression(this SortBy<SortHouseBy> sortBy)
+    {
+        return sortBy.SortByEnum switch
+        {
+            SortHouseBy.Price => house => house.Price,
+            SortHouseBy.Name => house => house.Name,
+            _ => throw new ArgumentOutOfRangeException(nameof(sortBy.SortByEnum), sortBy.SortByEnum, "Unknown sort by enum")
+        };
     }
 }

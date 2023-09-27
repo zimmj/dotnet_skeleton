@@ -15,5 +15,5 @@ public class FilterHousesHandler : IRequestHandler<FilterHousesCommand, Result<S
     }
 
     public Task<Result<SearchAnswer<House>>> Handle(FilterHousesCommand request, CancellationToken cancellationToken)
-        => _houseRepository.FindAsync(request.HouseQuery, request.Paginator);
+        => _houseRepository.FindAsync(request.HouseQuery, request.Paginator, request.SortBy);
 }

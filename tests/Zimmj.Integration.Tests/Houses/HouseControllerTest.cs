@@ -5,22 +5,22 @@ using FluentAssertions;
 using Zimmj.Integration.Tests.Common;
 using Zimmj.Integration.Tests.Fixtures;
 using Zimmj.Presentation.CrossCutting.Dto;
+using Zimmj.Presentation.CrossCutting.Enum;
 using Zimmj.Presentation.Houses.Dto;
+using Zimmj.Presentation.Houses.Enum;
 
 namespace Zimmj.Integration.Tests.Houses;
 
 public class HouseControllerTest : IClassFixture<TestFixture<Program>>
 {
     private readonly HttpClient _client;
-    private readonly TestFixture<Program> _testFixture;
 
     public HouseControllerTest(
         TestFixture<Program> testFixture)
     {
-        _testFixture = testFixture;
         testFixture.ConfigureTestOptions(options =>
         {
-            options.ConfigureDatabase("SkelletonDatabase");
+            options.ConfigureDatabase("HouseControllerTest");
             options.ConfigureWebHost(services =>
             {
                 //Add Mocked services here for injection
@@ -28,7 +28,7 @@ public class HouseControllerTest : IClassFixture<TestFixture<Program>>
         });
        
         _client = testFixture.CreateClient();
-        SeedHouseData.SeedData(_client);
+        SeedHouseData.SeedData(_client).Wait();
     }
 
 
@@ -111,6 +111,28 @@ public class HouseControllerTest : IClassFixture<TestFixture<Program>>
         housesAnswer.Should().NotBeNull();
         housesAnswer!.Items.Should().NotBeEmpty();
         housesAnswer.Items.Should().HaveCount((int)housesAnswer.TotalCount);
+    }
+    
+    [Theory]
+    [InlineData(SortHouseByDto.Price, SortDirectionDto.ASC, "Cheap House")]
+    [InlineData(SortHouseByDto.Price, SortDirectionDto.DESC, "Expensive House")]
+    [InlineData(SortHouseByDto.Name, SortDirectionDto.ASC, "Cheap House")]
+    [InlineData(SortHouseByDto.Name, SortDirectionDto.DESC, "Test House")]
+    public async void FilterHouses_WithSort_ShouldReturnSortedHouses(SortHouseByDto sortBy, SortDirectionDto direction, string nameOfFirstHouse)
+    {
+        // Arrange
+
+        // Act
+        var response = await _client.GetAsync($"/api/houses?sortBy={sortBy}&sortDirection={direction}");
+        
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var housesAnswer = response.Deserialize<SearchAnswerDto<SimpleHouse>>();
+        
+        housesAnswer.Should().NotBeNull();
+        housesAnswer!.Items.Should().NotBeEmpty();
+        housesAnswer.Items.Should().HaveCount((int)housesAnswer.TotalCount);
+        housesAnswer.Items.First().Name.Should().Be(nameOfFirstHouse);
     }
 
     [Theory]

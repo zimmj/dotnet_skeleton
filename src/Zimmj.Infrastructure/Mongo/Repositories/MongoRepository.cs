@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using MongoDB.Driver;
 using Zimmj.Infrastructure.Mongo.Interfaces;
+using SortDirection = Zimmj.Core.CrossCutting.Search.SortDirection;
 
 namespace Zimmj.Infrastructure.Mongo.Repositories;
 
@@ -22,8 +23,24 @@ internal class MongoRepository<TEntity, TIdentifiable> : IMongoRepository<TEntit
     public Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate)
         => Collection.Find(predicate).SingleOrDefaultAsync();
 
-    public Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, MongoPaginator paginator)
-        => Collection.Find(predicate).Skip(paginator.Skip).Limit(paginator.Take).ToListAsync();
+    public Task<List<TEntity>> FindAsync(
+        Expression<Func<TEntity, bool>> predicate,
+        MongoPaginator paginator,
+        Expression<Func<TEntity, object>> sortByField,
+        SortDirection sortDirection)
+    {
+        var find = Collection.Find(predicate).Skip(paginator.Skip).Limit(paginator.Take);
+
+        switch (sortDirection)
+        {
+            case SortDirection.ASC:
+                return find.SortBy(sortByField).ToListAsync();
+            case SortDirection.DESC:
+                return find.SortByDescending(sortByField).ToListAsync();
+            default:
+                throw new ArgumentOutOfRangeException(nameof(sortDirection), sortDirection, null);
+        }
+    }
 
     public Task<List<TEntity>> GetAllDocumentsAsync()
         => Collection.Find(entity => true).ToListAsync();
