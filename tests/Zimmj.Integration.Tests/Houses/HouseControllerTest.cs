@@ -4,10 +4,10 @@ using System.Text.Json;
 using FluentAssertions;
 using Zimmj.Integration.Tests.Common;
 using Zimmj.Integration.Tests.Fixtures;
-using Zimmj.Presentation.CrossCutting.Dto;
-using Zimmj.Presentation.CrossCutting.Enum;
-using Zimmj.Presentation.Houses.Dto;
-using Zimmj.Presentation.Houses.Enum;
+using Zimmj.Rest.CrossCutting.Dto;
+using Zimmj.Rest.CrossCutting.Enum;
+using Zimmj.Rest.Houses.Dto;
+using Zimmj.Rest.Houses.Enum;
 
 namespace Zimmj.Integration.Tests.Houses;
 

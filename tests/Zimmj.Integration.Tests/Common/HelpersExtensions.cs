@@ -1,6 +1,6 @@
 using System.Net.Http.Headers;
 using System.Text.Json;
-using Zimmj.Presentation.Houses.Dto;
+using Zimmj.Rest.Houses.Dto;
 
 namespace Zimmj.Integration.Tests.Common;
 

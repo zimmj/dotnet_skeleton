@@ -1,5 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+    <PropertyGroup>
+      <RootNamespace>Zimmj.Rest.Tests</RootNamespace>
+    </PropertyGroup>
+
     <ItemGroup>
         <PackageReference Include="AutoFixture.Xunit2" />
         <PackageReference Include="FluentAssertions" />
@@ -15,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Zimmj.Presentation\Zimmj.Presentation.csproj" />
+      <ProjectReference Include="..\..\src\Zimmj.Rest\Zimmj.Rest.csproj" />
     </ItemGroup>
 
 </Project>

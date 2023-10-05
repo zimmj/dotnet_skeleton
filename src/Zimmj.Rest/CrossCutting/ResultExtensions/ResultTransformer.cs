@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Zimmj.Core.CrossCutting.ResultExtensions.Errors;
 using Zimmj.Core.CrossCutting.ResultExtensions.Successes;
 
-namespace Zimmj.Presentation.CrossCutting.ResultExtensions;
+namespace Zimmj.Rest.CrossCutting.ResultExtensions;
 
 public static class ResultTransformer
 {

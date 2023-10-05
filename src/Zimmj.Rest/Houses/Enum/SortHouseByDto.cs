@@ -1,6 +1,6 @@
 using Zimmj.Core.Houses;
 
-namespace Zimmj.Presentation.Houses.Enum;
+namespace Zimmj.Rest.Houses.Enum;
 
 public enum SortHouseByDto
 {

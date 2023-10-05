@@ -1,4 +1,4 @@
-namespace Zimmj.Presentation.CrossCutting.Logging;
+namespace Zimmj.Rest.CrossCutting.Logging;
 
 public class HttpEvent
 {

@@ -5,15 +5,15 @@ using Zimmj.Application.Houses.Commands.Add;
 using Zimmj.Application.Houses.Commands.Get;
 using Zimmj.Core.CrossCutting.Search;
 using Zimmj.Core.Houses;
-using Zimmj.Presentation.CrossCutting.Dto;
-using Zimmj.Presentation.CrossCutting.Enum;
-using Zimmj.Presentation.CrossCutting.Logging;
-using Zimmj.Presentation.CrossCutting.ResultExtensions;
-using Zimmj.Presentation.Houses.Dto;
-using Zimmj.Presentation.Houses.Enum;
-using Zimmj.Presentation.Houses.Mappings;
+using Zimmj.Rest.CrossCutting.ResultExtensions;
+using Zimmj.Rest.CrossCutting.Dto;
+using Zimmj.Rest.CrossCutting.Enum;
+using Zimmj.Rest.CrossCutting.Logging;
+using Zimmj.Rest.Houses.Dto;
+using Zimmj.Rest.Houses.Enum;
+using Zimmj.Rest.Houses.Mappings;
 
-namespace Zimmj.Presentation.Houses;
+namespace Zimmj.Rest.Houses;
 
 [ApiController]
 [Route("api/[controller]")]

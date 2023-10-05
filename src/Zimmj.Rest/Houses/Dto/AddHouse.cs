@@ -1,7 +1,7 @@
 using Zimmj.Core.Houses;
-using Zimmj.Presentation.CrossCutting.Dto;
+using Zimmj.Rest.CrossCutting.Dto;
 
-namespace Zimmj.Presentation.Houses.Dto;
+namespace Zimmj.Rest.Houses.Dto;
 
 public class AddHouse : BaseDto<AddHouse, House>
 {

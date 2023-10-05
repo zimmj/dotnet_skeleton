@@ -1,6 +1,6 @@
 using Zimmj.Core.CrossCutting.Search;
 
-namespace Zimmj.Presentation.CrossCutting.Enum;
+namespace Zimmj.Rest.CrossCutting.Enum;
 
 public enum SortDirectionDto
 {

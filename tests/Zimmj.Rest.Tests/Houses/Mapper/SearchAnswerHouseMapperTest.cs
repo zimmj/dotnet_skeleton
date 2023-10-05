@@ -1,8 +1,8 @@
 using Zimmj.Core.CrossCutting.Search;
 using Zimmj.Core.Houses;
-using Zimmj.Presentation.Houses.Mappings;
+using Zimmj.Rest.Houses.Mappings;
 
-namespace Zimmj.Presentation.Tests.Houses.Mapper;
+namespace Zimmj.Rest.Tests.Houses.Mapper;
 
 public class SearchAnswerHouseMapperTest
 {

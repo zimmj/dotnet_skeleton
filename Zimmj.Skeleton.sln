@@ -7,21 +7,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F2E20F29-1C7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zimmj.Core", "src\Zimmj.Core\Zimmj.Core.csproj", "{73F1AA5F-E196-4338-B64E-18BC843B30BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zimmj.Application", "src\Zimmj.Application\Zimmj.Application.csproj", "{261ABDE2-A0C2-49C3-8F25-4D21880DADB0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zimmj.UseCases", "src\Zimmj.UseCases\Zimmj.UseCases.csproj", "{261ABDE2-A0C2-49C3-8F25-4D21880DADB0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zimmj.Infrastructure", "src\Zimmj.Infrastructure\Zimmj.Infrastructure.csproj", "{46B3F109-0343-4740-B3B1-67BC91EF96A9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B37E375D-4591-48F4-8ED9-C3D9A8E195CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zimmj.Application.Tests", "tests\Zimmj.Application.Tests\Zimmj.Application.Tests.csproj", "{2DCD4173-CA93-4BCF-AEAD-B75A09E6838A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zimmj.UseCases.Tests", "tests\Zimmj.UseCases.Tests\Zimmj.UseCases.Tests.csproj", "{2DCD4173-CA93-4BCF-AEAD-B75A09E6838A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zimmj.Core.Tests", "tests\Zimmj.Core.Tests\Zimmj.Core.Tests.csproj", "{6EF688E5-D04F-479C-8D62-F128B5459DED}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zimmj.Infrastructure.Tests", "tests\Zimmj.Infrastructure.Tests\Zimmj.Infrastructure.Tests.csproj", "{384243FF-0321-45A0-A6D6-8B7E887D72F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zimmj.Presentation.Tests", "tests\Zimmj.Presentation.Tests\Zimmj.Presentation.Tests.csproj", "{2B1F8ABF-1F38-47AC-BB54-A482B421B8F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zimmj.Rest.Tests", "tests\Zimmj.Rest.Tests\Zimmj.Rest.Tests.csproj", "{2B1F8ABF-1F38-47AC-BB54-A482B421B8F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zimmj.Presentation", "src\Zimmj.Presentation\Zimmj.Presentation.csproj", "{2601A7F1-6153-4DEE-931D-844100C01322}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zimmj.Rest", "src\Zimmj.Rest\Zimmj.Rest.csproj", "{2601A7F1-6153-4DEE-931D-844100C01322}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zimmj.Integration.Tests", "tests\Zimmj.Integration.Tests\Zimmj.Integration.Tests.csproj", "{5EA84581-EB34-46A0-84EC-4E4AFF6D8108}"
 EndProject

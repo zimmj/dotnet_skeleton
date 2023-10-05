@@ -1,5 +1,5 @@
 
-namespace Zimmj.Presentation.CrossCutting.Dto;
+namespace Zimmj.Rest.CrossCutting.Dto;
 
 public class SearchAnswerDto<TDto>
 {

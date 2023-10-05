@@ -10,7 +10,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Zimmj.Application\Zimmj.Application.csproj" />
+    <ProjectReference Include="..\Zimmj.UseCases\Zimmj.UseCases.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CrossCutting\" />

@@ -1,14 +1,14 @@
 using Zimmj.Integration.Tests.Common;
-using Zimmj.Presentation.Houses.Dto;
+using Zimmj.Rest.Houses.Dto;
 
 namespace Zimmj.Integration.Tests.Houses;
 
 public static class SeedHouseData
 {
-    private static bool Once = false;
+    private static bool _once = false;
     public static async Task SeedData(HttpClient client)
     {
-        if (Once)
+        if (_once)
             return;
         foreach (var addHouse in HousesSeed)
         {
@@ -16,7 +16,7 @@ public static class SeedHouseData
                 "/api/houses", addHouse.ToJsonContent());
         }
 
-        Once = true;
+        _once = true;
     }
 
     private static readonly List<AddHouse> HousesSeed = new List<AddHouse>()

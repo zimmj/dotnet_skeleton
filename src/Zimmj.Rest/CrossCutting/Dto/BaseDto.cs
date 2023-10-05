@@ -1,6 +1,6 @@
 using Mapster;
 
-namespace Zimmj.Presentation.CrossCutting.Dto;
+namespace Zimmj.Rest.CrossCutting.Dto;
 
 public class BaseDto<TDto, TEntity> : IRegister
     where TDto : class, new()

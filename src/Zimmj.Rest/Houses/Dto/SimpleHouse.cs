@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 using Zimmj.Core.Houses;
-using Zimmj.Presentation.CrossCutting.Dto;
+using Zimmj.Rest.CrossCutting.Dto;
 
-namespace Zimmj.Presentation.Houses.Dto;
+namespace Zimmj.Rest.Houses.Dto;
 
 public class SimpleHouse : BaseDto<SimpleHouse, House>
 {
