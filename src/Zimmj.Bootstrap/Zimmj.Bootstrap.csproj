@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <RootNamespace>Bootstrap</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Serilog" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Zimmj.Core\Zimmj.Core.csproj" />
+      <ProjectReference Include="..\Zimmj.Infrastructure\Zimmj.Infrastructure.csproj" />
+      <ProjectReference Include="..\Zimmj.Rest\Zimmj.Rest.csproj" />
+      <ProjectReference Include="..\Zimmj.UseCases\Zimmj.UseCases.csproj" />
+    </ItemGroup>
+
+</Project>

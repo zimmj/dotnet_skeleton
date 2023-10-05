@@ -1,6 +1,8 @@
 using System.Diagnostics;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Zimmj.Application.Houses.Commands.Add;
 using Zimmj.Application.Houses.Commands.Get;
 using Zimmj.Core.CrossCutting.Search;

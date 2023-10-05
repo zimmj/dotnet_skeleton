@@ -26,6 +26,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\src\Zimmj.Bootstrap\Zimmj.Bootstrap.csproj" />
         <ProjectReference Include="..\..\src\Zimmj.Infrastructure\Zimmj.Infrastructure.csproj" />
         <ProjectReference Include="..\..\src\Zimmj.Rest\Zimmj.Rest.csproj" />
     </ItemGroup>
