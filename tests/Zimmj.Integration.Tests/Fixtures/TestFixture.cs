@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebMotions.Fake.Authentication.JwtBearer;
+using Zimmj.Core.Houses;
 
 namespace Zimmj.Integration.Tests.Fixtures;
 
@@ -21,6 +23,17 @@ public class TestFixture<TStartup> : IDisposable where TStartup : class
     public HttpClient CreateClient()
     {
         return _client ??= WebApplicationFactory.CreateClient();
+    }
+
+    private bool _seeded = false;
+    public async void Seed(List<House> houses)
+    {
+        if(_seeded)
+            return;
+        using var scope = WebApplicationFactory.Server.Services.CreateScope();
+        var houseRepository = scope.ServiceProvider.GetRequiredService<IHouseRepository>();
+        await houseRepository.AddManyAsync(houses);
+        _seeded = true;
     }
 
     public void ConfigureTestOptions(Action<TestFixtureOptions> configureTestOptions)
@@ -57,7 +70,10 @@ public class TestFixture<TStartup> : IDisposable where TStartup : class
                 builder.UseEnvironment(_hostingEnvironment);
 
                 // Before TStartup ConfigureServices.
-                builder.ConfigureServices(collection => { });
+                builder.ConfigureServices(collection =>
+                {
+                    collection.AddAuthentication(FakeJwtBearerDefaults.AuthenticationScheme).AddFakeJwtBearer();
+                });
 
                 // After TStartup ConfigureServices.
                 builder.ConfigureTestServices(collection => { });

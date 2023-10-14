@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -17,6 +18,7 @@ using Zimmj.Rest.Houses.Mappings;
 
 namespace Zimmj.Rest.Houses;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class HousesController : ControllerBase
@@ -32,7 +34,7 @@ public class HousesController : ControllerBase
         _logger = logger;
         _mediator = mediator;
     }
-
+    
     [HttpGet(Name = nameof(FilterHouses))]
     public async Task<ActionResult<SearchAnswerDto<SimpleHouse>>> FilterHouses([FromQuery] int? upperPrice,
         [FromQuery] int? lowerPrice,

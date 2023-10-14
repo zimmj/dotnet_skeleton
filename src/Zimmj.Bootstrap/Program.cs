@@ -1,3 +1,4 @@
+using Microsoft.IdentityModel.Logging;
 using Serilog;
 using Zimmj.Application;
 using Zimmj.Core;
@@ -8,13 +9,16 @@ try
 {
     var builder = WebApplication.CreateBuilder(args);
 
-    builder.Services.AddRestLayer()
+    builder.Services.AddRestLayer(builder.Configuration)
         .AddInfrastructureLayer(builder.Configuration)
         .AddApplicationLayer()
         .AddCoreLayer();
-
+    
+    
     var app = builder.Build();
     app.StartRestLayer().Run();
+    
+
 }
 catch (Exception ex)
 {

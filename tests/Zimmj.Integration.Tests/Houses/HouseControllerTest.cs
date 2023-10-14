@@ -1,5 +1,5 @@
+using System.Dynamic;
 using System.Net;
-using System.Net.Http.Headers;
 using System.Text.Json;
 using FluentAssertions;
 using Zimmj.Integration.Tests.Common;
@@ -27,10 +27,12 @@ public class HouseControllerTest : IClassFixture<TestFixture<Program>>
             });
         });
        
-        _client = testFixture.CreateClient();
-        SeedHouseData.SeedData(_client).Wait();
-    }
+        testFixture.Seed(SeedHouseData.HousesSeed);
 
+        _client = testFixture.CreateClient();
+        // As we use singleton client, all calls will be authenticated
+        _client.SetFakeBearerToken(new ExpandoObject());
+    }
 
     [Fact]
     public async void GetHouse_WithWrongName_ShouldReturnNotFound()
@@ -142,7 +144,7 @@ public class HouseControllerTest : IClassFixture<TestFixture<Program>>
     public async void FilterHouse_WithDifferentLimits_ShouldReturnDifferentHouses(int? upperLimit, int? lowerLimit, int count)
     {
         // Arrange
-        
+
         // Act
         var response = await _client.GetAsync($"/api/houses?upperPrice={upperLimit}&lowerPrice={lowerLimit}");
         
@@ -154,25 +156,5 @@ public class HouseControllerTest : IClassFixture<TestFixture<Program>>
         housesAnswer!.Items.Should().NotBeEmpty();
         housesAnswer.Items.Should().HaveCount(count);
         housesAnswer.Items.Should().OnlyContain(house => house.Price <= upperLimit && house.Price >= lowerLimit);
-    }
-
-    [Fact]
-    public async void Test1()
-    {
-        // Arrange
-
-        // Act
-        var response = await _client.GetAsync("/api/houses");
-
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-    }
-
-    private static StringContent GetJsonContent(Object content)
-    {
-        var json = JsonSerializer.Serialize(content);
-        var stringContent = new StringContent(json);
-        stringContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-        return stringContent;
     }
 }

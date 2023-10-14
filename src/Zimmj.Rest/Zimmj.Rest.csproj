@@ -3,6 +3,7 @@
     <ItemGroup>
         <PackageReference Include="Mapster" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+        <PackageReference Include="Microsoft.Identity.Web" />
         <PackageReference Include="NSwag.AspNetCore" />
     </ItemGroup>
 
