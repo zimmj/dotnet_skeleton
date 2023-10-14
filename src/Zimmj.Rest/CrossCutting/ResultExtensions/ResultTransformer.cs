@@ -8,96 +8,81 @@ namespace Zimmj.Rest.CrossCutting.ResultExtensions;
 public static class ResultTransformer
 {
     public static ActionResult<TEntity> ToActionResult<TEntity>(
-        this Result<TEntity> result,
-        string? pathToEntity = null
+        this Result<TEntity> result
     )
     {
-        if (result.IsSuccess)
+        return result.IsSuccess switch
         {
-            return ToSuccessActionResult(result, pathToEntity);
-        }
-
-        return ToBadActionResult(result);
+            true => ToSuccessActionResult(result),
+            _ => ToBadActionResult(result)
+        };
     }
 
     private static ActionResult ToBadActionResult<TEntity>(Result<TEntity> result)
     {
-        switch (result.Errors.FirstOrDefault())
+        return result.Errors.FirstOrDefault() switch
         {
-            case EntityNotFoundError:
-                return new NotFoundResult();
-        }
-
-        return new BadRequestObjectResult(result.Errors);
+            EntityNotFoundError => new NotFoundResult(),
+            _ => new BadRequestObjectResult(result.Errors)
+        };
     }
 
-    private static ActionResult<TEntity> ToSuccessActionResult<TEntity>(this Result<TEntity> result,
-        string? pathToEntity = null)
+    private static ActionResult<TEntity> ToSuccessActionResult<TEntity>(this Result<TEntity> result)
     {
-        switch (result.Successes.FirstOrDefault())
+        return result.Successes.FirstOrDefault() switch
         {
-            case ChangeAccepted:
-                return new OkObjectResult(result.Value);
-            case EntityCreated:
-                return new CreatedResult(pathToEntity ?? "", result.Value);
-        }
-
-        return new OkObjectResult(result.Value);
+            ChangeAccepted => new AcceptedResult(),
+            EntityCreatedAt createdAt => createdAt.ToCreatedAtActionResult(result.Value),
+            _ => new OkObjectResult(result.Value)
+        };
     }
 
     public static ActionResult ToActionResult(this Result result)
     {
-        if (result.IsSuccess)
+        return result.IsSuccess switch
         {
-            return ToSuccessActionResult(result);
-        }
-
-        return ToBadActionResult(result);
+            true => ToSuccessActionResult(result),
+            _ => ToBadActionResult(result)
+        };
     }
 
     private static ActionResult ToBadActionResult(Result result)
     {
-        switch (result.Errors.FirstOrDefault())
+        return result.Errors.FirstOrDefault() switch
         {
-            case EntityNotFoundError:
-                return new NotFoundResult();
-        }
-
-        return new BadRequestObjectResult(result.Errors);
+            EntityNotFoundError => new NotFoundResult(),
+            _ => new BadRequestObjectResult(result.Errors)
+        };
     }
 
     private static ActionResult ToSuccessActionResult(this Result result)
     {
-        switch (result.Successes.FirstOrDefault())
+        return result.Successes.FirstOrDefault() switch
         {
-            case ChangeAccepted:
-                return new OkResult();
-        }
-
-        return new OkResult();
+            ChangeAccepted => new OkResult(),
+            EntityCreatedAt createdAt => createdAt.ToCreatedAtActionResult(),
+            _ => new OkResult()
+        };
+    }
+    
+    
+    private static ActionResult ToCreatedAtActionResult<T>(this EntityCreatedAt entityCreatedAt, T value)
+    {
+        return new CreatedAtActionResult(
+            entityCreatedAt.ActionName,
+            entityCreatedAt.ControllerName,
+            entityCreatedAt.RouteValues,
+            value
+        );
     }
 
-    public static ActionResult ToActionResult(this Result result,
-        string actionName, string controllerName, object routeValues
-    )
+    private static ActionResult ToCreatedAtActionResult(this EntityCreatedAt entityCreatedAt)
     {
-        if (result.IsSuccess)
-        {
-            return new CreatedAtActionResult(actionName, controllerName, routeValues, "");
-        }
-
-        return ToBadActionResult(result);
-    }
-
-    public static ActionResult<TEntity> ToActionResult<TEntity>(this Result<TEntity> result,
-        string actionName, string controllerName, object routeValues
-    )
-    {
-        if (result.IsSuccess)
-        {
-            return new CreatedAtActionResult(actionName, controllerName, routeValues, result.Value);
-        }
-
-        return ToBadActionResult(result);
+        return new CreatedAtActionResult(
+            entityCreatedAt.ActionName,
+            entityCreatedAt.ControllerName,
+            entityCreatedAt.RouteValues,
+            null
+        );
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Zimmj.Application.Houses.Commands.Add;
 using Zimmj.Application.Houses.Commands.Get;
+using Zimmj.Core.CrossCutting.ResultExtensions.Successes;
 using Zimmj.Core.CrossCutting.Search;
 using Zimmj.Core.Houses;
 using Zimmj.Rest.CrossCutting.ResultExtensions;
@@ -34,7 +35,7 @@ public class HousesController : ControllerBase
         _logger = logger;
         _mediator = mediator;
     }
-    
+
     [HttpGet(Name = nameof(FilterHouses))]
     public async Task<ActionResult<SearchAnswerDto<SimpleHouse>>> FilterHouses([FromQuery] int? upperPrice,
         [FromQuery] int? lowerPrice,
@@ -74,9 +75,15 @@ public class HousesController : ControllerBase
         timer.Stop();
         var eventLog = new HttpEventBuilder(Request).Created(timer.ElapsedMilliseconds);
         _logger.LogInformation("{@Event}", eventLog);
-        return result.ToActionResult(nameof(GetHouseByName), "Houses", new
-        {
-            name = addHouse.Name
-        });
+        return result.WithReason(
+                new EntityCreatedAt(
+                    nameof(GetHouseByName),
+                    "Houses",
+                    new
+                    {
+                        name = addHouse.Name
+                    }
+                ))
+            .ToActionResult();
     }
 }

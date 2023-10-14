@@ -18,6 +18,6 @@ public class AddHouseHandler : IRequestHandler<AddHouseCommand, Result>
     public Task<Result> Handle(AddHouseCommand request, CancellationToken cancellationToken)
     {
         _houseRepository.AddAsync(request.House);
-        return Task.FromResult(Result.Ok().WithSuccess(new EntityCreated()));
+        return Task.FromResult(Result.Ok());
     }
 }
