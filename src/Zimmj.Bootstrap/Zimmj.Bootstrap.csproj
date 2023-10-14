@@ -15,14 +15,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Serilog" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Zimmj.Core\Zimmj.Core.csproj" />
       <ProjectReference Include="..\Zimmj.Infrastructure\Zimmj.Infrastructure.csproj" />
       <ProjectReference Include="..\Zimmj.Rest\Zimmj.Rest.csproj" />
       <ProjectReference Include="..\Zimmj.UseCases\Zimmj.UseCases.csproj" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <InternalsVisibleTo Include="Zimmj.Integration.Tests"/>
     </ItemGroup>
 
 </Project>

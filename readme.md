@@ -6,7 +6,7 @@ I tried to find different sources describing the ideas I had and put the best de
 
 The main architectural idea is to use the [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
 
-In my implemantation I used following concepts:
+In my implementation I used following concepts:
 
 - All data gets convert to domain object in the most outer layer.
 All other layer are working with the domain object. With this you have a clear understanding, which object is to use when.
@@ -17,9 +17,11 @@ And no implementation details are leaking out of the API.
 ### Used Libraries and Ideas
 
 - [Result Object](./documentation/resultObject/Result-Object.md) instead of exceptions
-- [MediatR]() to create clear and simple single responsibility actions
-- [AutoMapper]() to map between domain objects and data objects
-- [B2C Authentication]() to authenticate users
+- [MediatR](./documentation/mediator/Mediator.md) to create clear and simple single responsibility actions
+- [AutoMapper](./documentation/mapping/Auto-Mapping.md) to map between domain objects and data objects
+- [B2C Authentication](./documentation/security/B2C.md) to authenticate users
+- [Input Valudation](), validate user input on handler pipeline (to be implemented)
+- [Logging](), change logging to json, add logging in handler pipeline. (to be implemented)
 
 ### Testing
 
@@ -28,27 +30,12 @@ With it, we can practice TDD and have a good test coverage.
 Additional to integration testing, some unit tests are also implemented.
 To further bulster the confidence in the code.
 
-- [Integration Testing]()
-- [Mapper testing]()
-- [Predicate testing]()
+- [Integration Testing](./documentation/testing/IntegrationTesting.md)
+- [Testing Authentication and Authorization](./documentation/testing/IntegrationTesting.md)
+- [Mapper Testing](./documentation/testing/TestingOfMapper.md)
+- [Predicate Testing](./documentation/testing/PredicateTesting.md)
 
 
-## Hot to get token from the Azure B2C flow
+### Docker build //todo
 
-To really get a access token, and not only an id token.
-One need to do:
-
-1. Expose an API in the Single page application of Azure b2c
-2. Grant the permission to API permission of this Single Page application
-3. Grant Admin consent for the API permission
-4. The most important step (Which is literally stupidly strange)
-
-   When running flow login from Azure B2C user flow, you need to only select this api scope, not the id scope!
-
-   As probably JWT.ms is reading out the id token, instead of the access token.
-   Biggest difference is, int the claims are no scopes shown! ( "scp": "Read.All", is missing)
-
-
-This is the only way to get a token from the flow.
-
-```javascript
+- add docker file with test-runner and explain how to use it

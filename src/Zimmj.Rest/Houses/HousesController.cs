@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Identity.Web.Resource;
 using Zimmj.Application.Houses.Commands.Add;
 using Zimmj.Application.Houses.Commands.Get;
 using Zimmj.Core.CrossCutting.ResultExtensions.Successes;
@@ -21,6 +22,7 @@ namespace Zimmj.Rest.Houses;
 
 [Authorize]
 [ApiController]
+[RequiredScope("houses.read")]
 [Route("api/[controller]")]
 public class HousesController : ControllerBase
 {

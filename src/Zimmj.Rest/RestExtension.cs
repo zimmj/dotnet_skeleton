@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
-using Microsoft.IdentityModel.Logging;
 using NSwag;
 
 namespace Zimmj.Rest;
@@ -17,8 +16,6 @@ public static class RestExtensions
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddMicrosoftIdentityWebApi(configuration.GetSection("AzureAdB2C"));
 
-        IdentityModelEventSource.LogCompleteSecurityArtifact = true;
-        IdentityModelEventSource.ShowPII = true;
         services.AddControllers().AddJsonOptions(options =>
         {
             options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());

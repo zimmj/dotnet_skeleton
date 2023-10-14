@@ -1,33 +1,19 @@
-using Microsoft.IdentityModel.Logging;
-using Serilog;
 using Zimmj.Application;
 using Zimmj.Core;
 using Zimmj.Infrastructure;
 using Zimmj.Rest;
 
-try
-{
-    var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
-    builder.Services.AddRestLayer(builder.Configuration)
-        .AddInfrastructureLayer(builder.Configuration)
-        .AddApplicationLayer()
-        .AddCoreLayer();
-    
-    
-    var app = builder.Build();
-    app.StartRestLayer().Run();
-    
+builder.Services.AddRestLayer(builder.Configuration)
+    .AddInfrastructureLayer(builder.Configuration)
+    .AddApplicationLayer()
+    .AddCoreLayer();
 
-}
-catch (Exception ex)
-{
-    Log.Fatal(ex, "Host terminated unexpectedly");
-}
-finally
-{
-    Log.CloseAndFlush();
-}
+
+var app = builder.Build();
+app.StartRestLayer().Run();
+
 
 public partial class Program
 {

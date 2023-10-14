@@ -1,7 +1,5 @@
-using System.Dynamic;
-using System.Net;
+using System.Security.Claims;
 using System.Text.Json;
-using FluentAssertions;
 using Zimmj.Integration.Tests.Common;
 using Zimmj.Integration.Tests.Fixtures;
 using Zimmj.Rest.CrossCutting.Dto;
@@ -26,12 +24,18 @@ public class HouseControllerTest : IClassFixture<TestFixture<Program>>
                 //Add Mocked services here for injection
             });
         });
-       
+
         testFixture.Seed(SeedHouseData.HousesSeed);
 
         _client = testFixture.CreateClient();
         // As we use singleton client, all calls will be authenticated
-        _client.SetFakeBearerToken(new ExpandoObject());
+        _client.SetFakeBearerToken(
+            new Dictionary<string, object>()
+            {
+                { ClaimTypes.Name, "Test User" },
+                { "scp", "houses.read" },
+            }
+        );
     }
 
     [Fact]
@@ -39,10 +43,10 @@ public class HouseControllerTest : IClassFixture<TestFixture<Program>>
     {
         // Arrange
         var name = "Wrong Name";
-        
+
         // Act
         var response = await _client.GetAsync($"/api/houses/{name}");
-        
+
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
@@ -52,10 +56,9 @@ public class HouseControllerTest : IClassFixture<TestFixture<Program>>
     {
         // Arrange
         var name = "Test House";
-        
         // Act
         var response = await _client.GetAsync($"/api/houses/{name}");
-        
+
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var options = new JsonSerializerOptions
@@ -64,7 +67,7 @@ public class HouseControllerTest : IClassFixture<TestFixture<Program>>
         };
         var house = JsonSerializer.Deserialize<SimpleHouse>(
             await response.Content.ReadAsStringAsync(), options);
-        
+
         house.Should().NotBeNull();
         house!.Name.Should().Be(name);
     }
@@ -86,9 +89,9 @@ public class HouseControllerTest : IClassFixture<TestFixture<Program>>
         );
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
-        
+
         var newHouse = await _client.GetAsync(response.Headers.Location);
-        
+
         // Assert
         newHouse.StatusCode.Should().Be(HttpStatusCode.OK);
         var house = newHouse.Deserialize<SimpleHouse>();
@@ -105,32 +108,33 @@ public class HouseControllerTest : IClassFixture<TestFixture<Program>>
 
         // Act
         var response = await _client.GetAsync("/api/houses");
-        
+
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var housesAnswer = response.Deserialize<SearchAnswerDto<SimpleHouse>>();
-        
+
         housesAnswer.Should().NotBeNull();
         housesAnswer!.Items.Should().NotBeEmpty();
         housesAnswer.Items.Should().HaveCount((int)housesAnswer.TotalCount);
     }
-    
+
     [Theory]
     [InlineData(SortHouseByDto.Price, SortDirectionDto.ASC, "Cheap House")]
     [InlineData(SortHouseByDto.Price, SortDirectionDto.DESC, "Expensive House")]
     [InlineData(SortHouseByDto.Name, SortDirectionDto.ASC, "Cheap House")]
     [InlineData(SortHouseByDto.Name, SortDirectionDto.DESC, "Test House")]
-    public async void FilterHouses_WithSort_ShouldReturnSortedHouses(SortHouseByDto sortBy, SortDirectionDto direction, string nameOfFirstHouse)
+    public async void FilterHouses_WithSort_ShouldReturnSortedHouses(SortHouseByDto sortBy, SortDirectionDto direction,
+        string nameOfFirstHouse)
     {
         // Arrange
 
         // Act
         var response = await _client.GetAsync($"/api/houses?sortBy={sortBy}&sortDirection={direction}");
-        
+
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var housesAnswer = response.Deserialize<SearchAnswerDto<SimpleHouse>>();
-        
+
         housesAnswer.Should().NotBeNull();
         housesAnswer!.Items.Should().NotBeEmpty();
         housesAnswer.Items.Should().HaveCount((int)housesAnswer.TotalCount);
@@ -141,17 +145,18 @@ public class HouseControllerTest : IClassFixture<TestFixture<Program>>
     [InlineData(100, 0, 1)]
     [InlineData(1000140, 0, 3)]
     [InlineData(1000140, 300, 1)]
-    public async void FilterHouse_WithDifferentLimits_ShouldReturnDifferentHouses(int? upperLimit, int? lowerLimit, int count)
+    public async void FilterHouse_WithDifferentLimits_ShouldReturnDifferentHouses(int? upperLimit, int? lowerLimit,
+        int count)
     {
         // Arrange
 
         // Act
         var response = await _client.GetAsync($"/api/houses?upperPrice={upperLimit}&lowerPrice={lowerLimit}");
-        
+
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var housesAnswer = response.Deserialize<SearchAnswerDto<SimpleHouse>>();
-        
+
         housesAnswer.Should().NotBeNull();
         housesAnswer!.Items.Should().NotBeEmpty();
         housesAnswer.Items.Should().HaveCount(count);

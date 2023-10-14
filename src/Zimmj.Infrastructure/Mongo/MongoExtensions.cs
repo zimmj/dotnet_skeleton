@@ -42,9 +42,16 @@ public static class MongoExtensions
 
     private static void RegisterConventions()
     {
-        BsonSerializer.RegisterSerializer(typeof(decimal), new DecimalSerializer(BsonType.Decimal128));
-        BsonSerializer.RegisterSerializer(typeof(decimal?),
-            new NullableSerializer<decimal>(new DecimalSerializer(BsonType.Decimal128)));
+        try
+        {
+            BsonSerializer.TryRegisterSerializer(typeof(decimal), new DecimalSerializer(BsonType.Decimal128));
+            BsonSerializer.TryRegisterSerializer(typeof(decimal?),
+                new NullableSerializer<decimal>(new DecimalSerializer(BsonType.Decimal128)));
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
     }
 
     internal static IServiceCollection AddMongoRepository<TEntity, TIdentifiable>(
