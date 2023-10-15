@@ -16,12 +16,12 @@ And no implementation details are leaking out of the API.
 
 ### Used Libraries and Ideas
 
-- [Result Object](./documentation/resultObject/Result-Object.md) instead of exceptions
-- [MediatR](./documentation/mediator/Mediator.md) to create clear and simple single responsibility actions
-- [AutoMapper](./documentation/mapping/Auto-Mapping.md) to map between domain objects and data objects
+- [Result Object](./documentation/implementation/Result-Object.md) instead of exceptions
+- [MediatR](./documentation/implementation/Mediator.md) to create clear and simple single responsibility actions
+- [AutoMapper](./documentation/implementation/Auto-Mapping.md) to map between domain objects and data objects
 - [B2C Authentication](./documentation/security/B2C.md) to authenticate users
 - [Input Valudation](), validate user input on handler pipeline (to be implemented)
-- [Logging](), change logging to json, add logging in handler pipeline. (to be implemented)
+- [Logging](./documentation/implementation/Logging.md) with Serilog to a centralized logging system
 
 ### Testing
 
@@ -34,6 +34,7 @@ To further bulster the confidence in the code.
 - [Testing Authentication and Authorization](./documentation/testing/IntegrationTesting.md)
 - [Mapper Testing](./documentation/testing/TestingOfMapper.md)
 - [Predicate Testing](./documentation/testing/PredicateTesting.md)
+- [Load Teseting/System Testing](./documentation/testing/LoadAndSystemTesting.md) //todo write and add k6 script
 
 
 ### Docker build //todo

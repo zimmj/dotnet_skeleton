@@ -15,7 +15,7 @@ internal class MongoRepository<TEntity, TIdentifiable> : IMongoRepository<TEntit
     private IMongoCollection<TEntity> Collection { get; }
 
     public Task<long> CountAsync(Expression<Func<TEntity, bool>> predicate)
-     => Collection.CountDocumentsAsync(predicate);
+        => Collection.CountDocumentsAsync(predicate);
 
     public Task<TEntity?> GetAsync(TIdentifiable id)
         => GetAsync(entity => entity.Id.Equals(id));

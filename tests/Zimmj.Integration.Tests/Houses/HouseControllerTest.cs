@@ -33,7 +33,7 @@ public class HouseControllerTest : IClassFixture<TestFixture<Program>>
             new Dictionary<string, object>()
             {
                 { ClaimTypes.Name, "Test User" },
-                { "scp", "houses.read" },
+                { "scp", "house.read" },
             }
         );
     }

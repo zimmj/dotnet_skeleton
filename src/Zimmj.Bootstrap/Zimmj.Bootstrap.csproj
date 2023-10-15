@@ -24,5 +24,14 @@
     <ItemGroup>
         <InternalsVisibleTo Include="Zimmj.Integration.Tests"/>
     </ItemGroup>
+    
+    <ItemGroup>
+      <PackageReference Include="Serilog.AspNetCore" />
+      <PackageReference Include="Serilog.Enrichers.ClientInfo" />
+      <PackageReference Include="Serilog.Enrichers.Environment" />
+      <PackageReference Include="Serilog.Expressions" />
+      <PackageReference Include="Serilog.Settings.Configuration" />
+      <PackageReference Include="Serilog.Sinks.Console" />
+    </ItemGroup>
 
 </Project>

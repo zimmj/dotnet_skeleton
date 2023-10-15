@@ -22,7 +22,7 @@ namespace Zimmj.Rest.Houses;
 
 [Authorize]
 [ApiController]
-[RequiredScope("houses.read")]
+[RequiredScope("house.read")]
 [Route("api/[controller]")]
 public class HousesController : ControllerBase
 {
