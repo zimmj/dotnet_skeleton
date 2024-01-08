@@ -3,7 +3,4 @@
     <PackageReference Include="FluentResults" />
     <PackageReference Include="MediatR" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataAccess\" />
-  </ItemGroup>
 </Project>

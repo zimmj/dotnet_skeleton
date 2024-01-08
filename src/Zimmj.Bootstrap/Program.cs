@@ -20,6 +20,10 @@ builder.Services
 
 
 var app = builder.Build();
+var logger = app.Services
+    .GetRequiredService<ILogger<Program>>();
+
+logger.LogInformation($"Starting service");
 app.StartRestLayer().Run();
 
 

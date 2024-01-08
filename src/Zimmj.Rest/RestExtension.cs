@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Web;
 using NSwag;
 
@@ -49,8 +50,12 @@ public static class RestExtensions
 
     public static WebApplication StartRestLayer(this WebApplication app)
     {
+        var logger = app.Services
+            .GetRequiredService<ILogger<RestExtension>>();
+        
         if (!app.Environment.IsProduction())
         {
+            logger.LogInformation("Create swagger endpoints");
             app.UseOpenApi();
             app.UseSwaggerUi3();
         }
@@ -60,6 +65,13 @@ public static class RestExtensions
         app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();
+       
+
+        logger.LogInformation($"Starting service");
         return app;
     }
+}
+
+public partial class RestExtension
+{
 }
