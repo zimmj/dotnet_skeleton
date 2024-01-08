@@ -1,8 +1,8 @@
 using Serilog;
-using Zimmj.Application;
 using Zimmj.Core;
 using Zimmj.Infrastructure;
 using Zimmj.Rest;
+using Zimmj.UseCases;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -2,7 +2,7 @@ using FluentResults;
 using MediatR;
 using Zimmj.Core.Houses;
 
-namespace Zimmj.Application.Houses.Commands.Get;
+namespace Zimmj.UseCases.Houses.Commands.Get;
 
 public class GetHouseByNameCommand : IRequest<Result<House>>
 {

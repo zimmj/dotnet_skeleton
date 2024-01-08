@@ -2,7 +2,7 @@ using FluentResults;
 using MediatR;
 using Zimmj.Core.Houses;
 
-namespace Zimmj.Application.Houses.Commands.Add;
+namespace Zimmj.UseCases.Houses.Commands.Add;
 
 public class AddHouseCommand : IRequest<Result>
 {
