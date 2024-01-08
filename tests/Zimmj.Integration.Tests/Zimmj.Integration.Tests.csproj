@@ -1,14 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-
-        <IsPackable>false</IsPackable>
-        <IsTestProject>true</IsTestProject>
-    </PropertyGroup>
-
     <ItemGroup>
         <PackageReference Include="FluentAssertions" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
@@ -16,14 +7,8 @@
         <PackageReference Include="Mongo2Go" />
         <PackageReference Include="WebMotions.Fake.Authentication.JwtBearer" />
         <PackageReference Include="xunit"  />
-        <PackageReference Include="xunit.runner.visualstudio" >
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-            <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
-        <PackageReference Include="coverlet.collector">
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-            <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
+        <PackageReference Include="xunit.runner.visualstudio" />
+        <PackageReference Include="coverlet.collector"/>
     </ItemGroup>
 
     <ItemGroup>

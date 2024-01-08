@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Zimmj.Application;
+namespace Zimmj.UseCases;
 
 public static class ApplicationLayerExtensions
 {

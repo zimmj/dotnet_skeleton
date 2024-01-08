@@ -5,6 +5,15 @@ WORKDIR /App
 COPY . ./
 # Restore as distinct layers
 RUN dotnet restore "src/Zimmj.Bootstrap/Zimmj.Bootstrap.csproj"
+
+
+FROM build-env as testrunner
+
+WORKDIR "/App"
+CMD ["dotnet", "test", "--logger:trx"]
+
+FROM build-env as publish
+
 RUN dotnet build "src/Zimmj.Bootstrap/Zimmj.Bootstrap.csproj" -c Release -o /App/build --runtime alpine-x64
 RUN dotnet publish "src/Zimmj.Bootstrap/Zimmj.Bootstrap.csproj" -c Release -o /App/publish \
     --no-restore \
@@ -27,5 +36,5 @@ ENV ASPNETCORE_URLS=http://+:8080
 EXPOSE 8080
 ENV ASPNETCORE_ENVIRONMENT=Development
 WORKDIR /App
-COPY --from=build-env /App/publish .
+COPY --from=publish /App/publish .
 ENTRYPOINT ["./Zimmj.Bootstrap"]

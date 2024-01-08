@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Web.Resource;
-using Zimmj.Application.Houses.Commands.Add;
-using Zimmj.Application.Houses.Commands.Get;
 using Zimmj.Core.CrossCutting.ResultExtensions.Successes;
 using Zimmj.Core.CrossCutting.Search;
 using Zimmj.Core.Houses;
@@ -17,6 +15,8 @@ using Zimmj.Rest.CrossCutting.Logging;
 using Zimmj.Rest.Houses.Dto;
 using Zimmj.Rest.Houses.Enum;
 using Zimmj.Rest.Houses.Mappings;
+using Zimmj.UseCases.Houses.Commands.Add;
+using Zimmj.UseCases.Houses.Commands.Get;
 
 namespace Zimmj.Rest.Houses;
 
