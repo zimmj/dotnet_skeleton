@@ -1,10 +1,10 @@
-﻿FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
+﻿FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /App
 
 # Copy everything
 COPY . ./
 # Restore as distinct layers
-RUN dotnet restore "src/Zimmj.Bootstrap/Zimmj.Bootstrap.csproj" --runtime alpine-x64
+RUN dotnet restore "src/Zimmj.Bootstrap/Zimmj.Bootstrap.csproj" --runtime linux-musl-x64
 
 
 FROM build-env as testrunner
@@ -16,13 +16,13 @@ FROM build-env as publish
 
 RUN dotnet publish "src/Zimmj.Bootstrap/Zimmj.Bootstrap.csproj" -c Release -o /App/publish \
     --no-restore \
-    --runtime alpine-x64 \
     --self-contained true \
+    --runtime linux-musl-x64 \
     /p:PublishTrimmed=true \
     /p:PublishSingleFile=true
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:7.0-alpine
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine
 
 RUN adduser --disabled-password \
   --home /app \
